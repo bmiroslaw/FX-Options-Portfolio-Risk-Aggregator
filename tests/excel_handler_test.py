@@ -19,7 +19,7 @@ def create_dummy_trades_df() -> pd.DataFrame:
                 "RateDomestic": 0.02,
                 "RateForeign": 0.01,
                 "Expiry": 0.25,
-                "OptionType": "Call",
+                "OptionType": "Call"
             },
             {
                 "TradeID": "T000002",
@@ -32,8 +32,8 @@ def create_dummy_trades_df() -> pd.DataFrame:
                 "RateDomestic": 0.015,
                 "RateForeign": 0.01,
                 "Expiry": 0.50,
-                "OptionType": "Put",
-            },
+                "OptionType": "Put"
+            }
         ]
     )
 
@@ -107,7 +107,7 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=1,
-            OptionType="Call",
+            OptionType="Call"
         ),
         FxTrade(
             TradeID="T000002",
@@ -120,8 +120,8 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
             RateDomestic=0.015,
             RateForeign=0.01,
             Expiry=1,
-            OptionType="Put",
-        ),
+            OptionType="Put"
+        )
     ]
 
     metrics = [
@@ -133,7 +133,7 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
         total_pv=3000.0,
         total_delta=1100.0,
         total_vega=500.0,
-        num_trades=2,
+        num_trades=2
     )
 
     path = tmp_path / "results.xlsx"
@@ -162,7 +162,7 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
         "OptionType",
         "pv",
         "delta",
-        "vega",
+        "vega"
     }
     assert expected_trade_cols.issubset(set(trade_results_df.columns))
     assert summary_df.loc[0, "total_pv"] == pytest.approx(3000.0)

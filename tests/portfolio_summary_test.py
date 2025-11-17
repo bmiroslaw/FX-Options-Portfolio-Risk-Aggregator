@@ -5,7 +5,7 @@ from models import RiskMetrics
 def test_from_metrics_sums_all_fields():
     metrics = [
         RiskMetrics(trade_id="T1", pv=100.0, delta=10.0, vega=1.0),
-        RiskMetrics(trade_id="T2", pv=100.0, delta=10.0, vega=1),
+        RiskMetrics(trade_id="T2", pv=100.0, delta=10.0, vega=1)
     ]
 
     summary = PortfolioSummary.from_metrics(metrics)

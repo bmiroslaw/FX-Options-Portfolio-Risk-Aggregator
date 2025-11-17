@@ -16,7 +16,7 @@ def test_fxtrade_valid_with_aliases():
         RateDomestic=0.02,
         RateForeign=0.01,
         Expiry=0.25,
-        OptionType="Call",
+        OptionType="Call"
     )
 
     assert trade.trade_id == "T00001"
@@ -44,7 +44,7 @@ def test_fxtrade_valid_with_field_names_populate_by_name():
         rate_domestic=0.02,
         rate_foreign=0.01,
         expiry=0.25,
-        option_type=OptionType.CALL,
+        option_type=OptionType.CALL
     )
 
     assert trade.trade_id == "T002"
@@ -72,7 +72,7 @@ def test_negative_rates_allowed():
         RateDomestic=-0.05,
         RateForeign=-0.02,
         Expiry=1.0,
-        OptionType="Call",
+        OptionType="Call"
     )
 
     assert trade.rate_domestic == -0.05
@@ -91,7 +91,7 @@ def test_underlying_is_uppercased():
         RateDomestic=0.02,
         RateForeign=0.01,
         Expiry=0.25,
-        OptionType="Call",
+        OptionType="Call"
     )
 
     assert trade.underlying == "EUR/USD"
@@ -105,8 +105,8 @@ def test_underlying_is_uppercased():
         "EURO/USD",
         "EUR/US",
         "EUR/USDD",
-        "EUR/USD/GBP",
-    ],
+        "EUR/USD/GBP"
+    ]
 )
 def test_invalid_underlying_rejected(underlying):
     with pytest.raises(ValidationError):
@@ -121,7 +121,7 @@ def test_invalid_underlying_rejected(underlying):
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=0.25,
-            OptionType="Call",
+            OptionType="Call"
         )
 
 
@@ -139,12 +139,12 @@ def test_negative_prices_rejected(spot):
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=0.25,
-            OptionType="Call",
+            OptionType="Call"
         )
 
 
-@pytest.mark.parametrize("opt_type", ["call", "CALL", "CALL ", "Binary", "", "C"])
-def test_invalid_option_type_rejected(opt_type):
+@pytest.mark.parametrize("option_type", ["call", "CALL", "CALL ", "Binary", "", "C"])
+def test_invalid_option_type_rejected(option_type):
     with pytest.raises(ValidationError):
         FxTrade(
             TradeID="T008",
@@ -157,7 +157,7 @@ def test_invalid_option_type_rejected(opt_type):
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=0.25,
-            OptionType=opt_type,
+            OptionType=option_type
         )
 
 
@@ -175,7 +175,7 @@ def test_extra_fields_forbidden():
             RateForeign=0.01,
             Expiry=0.25,
             OptionType="Call",
-            SthExtra="not allowed",
+            SthExtra="not allowed"
         )
 
 
@@ -192,5 +192,5 @@ def test_missing_required_field_rejected():
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=0.25,
-            OptionType="Call",
+            OptionType="Call"
         )

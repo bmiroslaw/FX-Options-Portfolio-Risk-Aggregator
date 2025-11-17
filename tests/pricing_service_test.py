@@ -19,7 +19,7 @@ def trades() -> list[FxTrade]:
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=1,
-            OptionType="Call",
+            OptionType="Call"
         ),
         FxTrade(
             TradeID="T000002",
@@ -32,7 +32,7 @@ def trades() -> list[FxTrade]:
             RateDomestic=0.02,
             RateForeign=0.01,
             Expiry=1,
-            OptionType="Put",
+            OptionType="Put"
         )
     ]
 

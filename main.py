@@ -1,16 +1,29 @@
-# This is a sample Python script.
+# main.py
+import argparse
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from file_handler.excel_handler import ExcelHandler
+from pricing.black_scholes_fx_option_pricer import BlackScholesFxOptionPricer
+from service.pricing_service import PricingService
+from service.aggregation_service import AggregationService
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--output", required=True)
+    args = parser.parse_args()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    excel = ExcelHandler()
+    pricer = BlackScholesFxOptionPricer()
+    pricing_service = PricingService(pricer)
+    aggregation_service = AggregationService()
+
+    trades = excel.read_trades(args.input)
+    metrics = pricing_service.price_trades(trades)
+    summary = aggregation_service.aggregate(metrics)
+
+    excel.write_results(args.output, trades, metrics, summary)
+
+
+if __name__ == "__main__":
+    main()
