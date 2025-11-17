@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 
 from file_handler import ExcelHandler
-from models import FxTrade, OptionType
+from models import FxTrade, OptionType, RiskMetrics, PortfolioSummary
 
 
 def create_dummy_trades_df() -> pd.DataFrame:
@@ -92,3 +92,80 @@ def test_read_trades_extra_column(tmp_path):
 
     msg = str(e.value)
     assert "Failed to parse some trade rows" in msg
+
+
+def test_write_results_creates_expected_sheets_and_columns(tmp_path):
+    trades = [
+        FxTrade(
+            TradeID="T000001",
+            Underlying="EUR/USD",
+            Notional=1_000_000,
+            NotionalCurrency="USD",
+            Spot=1.10,
+            Strike=1.12,
+            Vol=0.11,
+            RateDomestic=0.02,
+            RateForeign=0.01,
+            Expiry=1,
+            OptionType="Call",
+        ),
+        FxTrade(
+            TradeID="T000002",
+            Underlying="GBP/USD",
+            Notional=500_000,
+            NotionalCurrency="USD",
+            Spot=1.30,
+            Strike=1.28,
+            Vol=0.13,
+            RateDomestic=0.015,
+            RateForeign=0.01,
+            Expiry=1,
+            OptionType="Put",
+        ),
+    ]
+
+    metrics = [
+        RiskMetrics(trade_id="T000001", pv=1000.0, delta=500.0, vega=200.0),
+        RiskMetrics(trade_id="T000002", pv=2000.0, delta=600.0, vega=300.0),
+    ]
+
+    summary = PortfolioSummary(
+        total_pv=3000.0,
+        total_delta=1100.0,
+        total_vega=500.0,
+        num_trades=2,
+    )
+
+    path = tmp_path / "results.xlsx"
+    io = ExcelHandler()
+    io.write_results(str(path), trades, metrics, summary)
+
+    with pd.ExcelFile(path) as xls:
+        sheet_names = set(xls.sheet_names)
+        assert "TradeLevelResults" in sheet_names
+        assert "PortfolioSummary" in sheet_names
+
+        trade_results_df = pd.read_excel(xls, sheet_name="TradeLevelResults")
+        summary_df = pd.read_excel(xls, sheet_name="PortfolioSummary")
+
+    expected_trade_cols = {
+        "TradeID",
+        "Underlying",
+        "Notional",
+        "NotionalCurrency",
+        "Spot",
+        "Strike",
+        "Vol",
+        "RateDomestic",
+        "RateForeign",
+        "Expiry",
+        "OptionType",
+        "pv",
+        "delta",
+        "vega",
+    }
+    assert expected_trade_cols.issubset(set(trade_results_df.columns))
+    assert summary_df.loc[0, "total_pv"] == pytest.approx(3000.0)
+    assert summary_df.loc[0, "total_delta"] == pytest.approx(1100.0)
+    assert summary_df.loc[0, "total_vega"] == pytest.approx(500.0)
+    assert summary_df.loc[0, "num_trades"] == 2
