@@ -31,4 +31,15 @@ class FxTrade(BaseModel):
     model_config = {
         "populate_by_name": True,
         "extra": "forbid",
+        "frozen": True
     }
+
+    def to_pricing_inputs(self) -> tuple[float, float, float, float, float, float]:
+        return (
+            self.spot_price,
+            self.strike_price,
+            self.expiry,
+            self.rate_domestic,
+            self.rate_foreign,
+            self.vol,
+        )
