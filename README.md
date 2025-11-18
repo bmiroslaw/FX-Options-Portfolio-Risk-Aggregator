@@ -14,7 +14,7 @@ This app reads a portfolio of FX option trades from an Excel file, validates the
 ### Main Components
 - **Excel I/O** – Loading trades & writing results (`ExcelHandler`)
 - **Pydantic Models** – Validation of data
-- **Pricing Engine** – Black–Scholes FX pricer (`BlackScholesFxOptionPricer`)
+- **Pricing Engine** – Black–Scholes FX Option pricer (`BlackScholesFxOptionPricer`)
 - **Services Layer** – Pricing & aggregation
 - **CLI Tool** – Command-line execution
 
