@@ -20,3 +20,15 @@ class PortfolioSummary(BaseModel):
         total_vega = sum(m.vega for m in metrics)
         num_trades = len(metrics)
         return cls(total_pv=total_pv, total_delta=total_delta, total_vega=total_vega, num_trades=num_trades)
+
+    def __str__(self) -> str:
+        return (
+            "PortfolioSummary:\n"
+            f" Trades:      {self.num_trades}\n"
+            f" Total PV:    {self.total_pv:,.3f}\n"
+            f" Total Delta: {self.total_delta:,.3f}\n"
+            f" Total Vega:  {self.total_vega:,.3f}"
+        )
+
+    def __repr__(self) -> str:
+        return str(self)
