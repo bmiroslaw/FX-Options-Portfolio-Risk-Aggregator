@@ -34,8 +34,8 @@ Assumptions:
 * Trade notional is in the domestic currency
 * All trades are long
 * Expiry is in years
-* Vol is a decimal
-* All outputs are scaled by notional.
+* Vol is a decimal 
+All outputs are scaled by notional.
 
 ---
 
