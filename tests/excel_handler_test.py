@@ -95,35 +95,6 @@ def test_read_trades_extra_column(tmp_path):
 
 
 def test_write_results_creates_expected_sheets_and_columns(tmp_path):
-    trades = [
-        FxTrade(
-            TradeID="T000001",
-            Underlying="EUR/USD",
-            Notional=1_000_000,
-            NotionalCurrency="USD",
-            Spot=1.10,
-            Strike=1.12,
-            Vol=0.11,
-            RateDomestic=0.02,
-            RateForeign=0.01,
-            Expiry=1,
-            OptionType="Call"
-        ),
-        FxTrade(
-            TradeID="T000002",
-            Underlying="GBP/USD",
-            Notional=500_000,
-            NotionalCurrency="USD",
-            Spot=1.30,
-            Strike=1.28,
-            Vol=0.13,
-            RateDomestic=0.015,
-            RateForeign=0.01,
-            Expiry=1,
-            OptionType="Put"
-        )
-    ]
-
     metrics = [
         RiskMetrics(trade_id="T000001", pv=1000.0, delta=500.0, vega=200.0),
         RiskMetrics(trade_id="T000002", pv=2000.0, delta=600.0, vega=300.0),
@@ -138,7 +109,7 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
 
     path = tmp_path / "results.xlsx"
     io = ExcelHandler()
-    io.write_results(str(path), trades, metrics, summary)
+    io.write_results(str(path), metrics, summary)
 
     with pd.ExcelFile(path) as xls:
         sheet_names = set(xls.sheet_names)
@@ -150,16 +121,6 @@ def test_write_results_creates_expected_sheets_and_columns(tmp_path):
 
     expected_trade_cols = {
         "TradeID",
-        "Underlying",
-        "Notional",
-        "NotionalCurrency",
-        "Spot",
-        "Strike",
-        "Vol",
-        "RateDomestic",
-        "RateForeign",
-        "Expiry",
-        "OptionType",
         "pv",
         "delta",
         "vega"
