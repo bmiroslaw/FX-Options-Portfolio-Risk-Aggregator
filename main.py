@@ -7,15 +7,30 @@ from service.pricing_service import PricingService
 from service.aggregation_service import AggregationService
 
 
+APP_DESCRIPTION = "FX Options Portfolio Risk Aggregator"
+ARG_INPUT = "input"
+ARG_OUTPUT = "output"
+ARG_INPUT_SHEET = "input_sheet"
+ARG_INPUT_SHEET_SHORT = "-s"
+
+DEFAULT_INPUT_SHEET = "fx_trades"
+HELP_INPUT = "Input trades .xlsx file"
+HELP_OUTPUT = "Output .xlsx file"
+HELP_INPUT_SHEET = "Name of the worksheet containing trades (default: fx_trades)"
+
+ERROR_PREFIX = "Error: "
+EXIT_FAILURE = 1
+
+
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="FX Options Portfolio Risk Aggregator")
-    parser.add_argument("input", help="Input trades .xlsx file")
-    parser.add_argument("output", help="Output .xlsx file")
+    parser = argparse.ArgumentParser(description=APP_DESCRIPTION)
+    parser.add_argument(ARG_INPUT, help=HELP_INPUT)
+    parser.add_argument(ARG_OUTPUT, help=HELP_OUTPUT)
     parser.add_argument(
-        "--input_sheet",
-        "-s",
-        default="fx_trades",
-        help="Name of the worksheet containing trades (default: fx_trades)",
+        f"--{ARG_INPUT_SHEET}",
+        ARG_INPUT_SHEET_SHORT,
+        default=DEFAULT_INPUT_SHEET,
+        help=HELP_INPUT_SHEET,
     )
     return parser.parse_args()
 
@@ -27,12 +42,12 @@ def initialise_services(sheet_name: str) -> tuple[ExcelHandler, PricingService, 
     return file_handler, pricing_service, aggregation_service
 
 
-def get_trades(file_handler, input_path: str):
+def get_trades(file_handler: ExcelHandler, input_path: str):
     try:
         trades = file_handler.read_trades(input_path)
     except (FileNotFoundError, ValueError, RuntimeError) as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
+        print(f"{ERROR_PREFIX}{e}", file=sys.stderr)
+        sys.exit(EXIT_FAILURE)
     return trades
 
 
