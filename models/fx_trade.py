@@ -24,6 +24,9 @@ class OptionType(str, Enum):
 
 
 class FxTrade(BaseModel):
+    """
+    Trade model for a single FX option trade.
+    """
     trade_id: str = Field(alias=ALIAS_TRADE_ID)
     underlying: str = Field(alias=ALIAS_UNDERLYING)
     notional: PositiveFloat = Field(alias=ALIAS_NOTIONAL)

@@ -4,6 +4,9 @@ from models import RiskMetrics
 
 
 class PortfolioSummary(BaseModel):
+    """
+    Aggregated portfolio-level risk metrics.
+    """
     total_pv: float
     total_delta: float
     total_vega: float

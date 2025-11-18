@@ -3,6 +3,9 @@ from pricing import BlackScholesFxOptionPricer
 
 
 class PricingService:
+    """
+    # Pricing a list of FX option trades into RiskMetrics.
+    """
     def __init__(self, pricer=BlackScholesFxOptionPricer):
         self._pricer = pricer
 

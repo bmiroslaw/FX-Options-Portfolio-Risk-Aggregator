@@ -17,6 +17,9 @@ ERROR_PARSE_ROW_LINE = "Row {}: {}"
 
 
 class ExcelHandler:
+    """
+    Excel interface for importing trades and exporting pricing results.
+    """
     def __init__(
             self,
             input_sheet: str = DEFAULT_INPUT_SHEET,
