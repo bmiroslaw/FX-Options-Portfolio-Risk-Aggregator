@@ -1,7 +1,7 @@
 # FX Options Portfolio Risk Aggregator
 
 Python application for pricing and aggregating FX options using the **Garman–Kohlhagen Black–Scholes model**.  
-
+Tested with Python **3.11.1**.
 ---
 
 ## Overview
@@ -57,10 +57,10 @@ pip install -r requirements.txt
 python3 main.py trades.xlsx results.xlsx
 ```
 
-Specify a custom worksheet name (default is **fx_trades**):
+Specify a custom worksheet name for the input .xlsx file (default is **fx_trades**):
 
 ```bash
-python3 main.py trades.xlsx results.xlsx --sheet Sheet1
+python3 main.py trades.xlsx results.xlsx --input_sheet Sheet1
 ```
 
 The app prints a portfolio summary and writes:
