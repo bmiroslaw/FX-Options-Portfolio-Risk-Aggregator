@@ -10,7 +10,7 @@ from service.aggregation_service import AggregationService
 APP_DESCRIPTION = "FX Options Portfolio Risk Aggregator"
 ARG_INPUT = "input"
 ARG_OUTPUT = "output"
-ARG_INPUT_SHEET = "input_sheet"
+ARG_INPUT_SHEET = "sheet"
 ARG_INPUT_SHEET_SHORT = "-s"
 
 DEFAULT_INPUT_SHEET = "fx_trades"
