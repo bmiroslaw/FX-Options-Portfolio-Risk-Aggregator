@@ -24,7 +24,7 @@ class ExcelHandler:
             self,
             input_sheet: str = DEFAULT_INPUT_SHEET,
             trade_results_sheet: str = DEFAULT_TRADE_RESULTS_SHEET,
-            portfolio_summary_sheet: str = DEFAULT_PORTFOLIO_SUMMARY_SHEET,
+            portfolio_summary_sheet: str = DEFAULT_PORTFOLIO_SUMMARY_SHEET
     ) -> None:
         self.input_sheet = input_sheet
         self.trade_results_sheet = trade_results_sheet
@@ -34,12 +34,7 @@ class ExcelHandler:
         df = self._load_dataframe(path)
         return self._parse_trades(df)
 
-    def write_results(
-        self,
-        path: str,
-        metrics: list[RiskMetrics],
-        summary: PortfolioSummary,
-    ) -> None:
+    def write_results(self, path: str, metrics: list[RiskMetrics], summary: PortfolioSummary) -> None:
         metrics_df = pd.DataFrame([m.model_dump() for m in metrics])
         metrics_df = metrics_df.rename(columns={TRADE_ID_FIELD: TRADE_ID_COLUMN})
         summary_df = pd.DataFrame([summary.model_dump()])
