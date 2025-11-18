@@ -57,7 +57,7 @@ pip install -r requirements.txt
 python3 main.py trades.xlsx results.xlsx
 ```
 
-Specify a custom worksheet name:
+Specify a custom worksheet name (default is **fx_trades**):
 
 ```bash
 python3 main.py trades.xlsx results.xlsx --sheet Sheet1

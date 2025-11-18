@@ -7,7 +7,6 @@ class QuantLibPricer:
     def _ql_pv_delta_vega_1pct(trade: FxTrade) -> tuple[float, float, float]:
         S, K, T, r_d, r_f, sigma = trade.to_pricing_inputs()
 
-        # Evaluation date and maturity
         today = ql.Date.todaysDate()
         days_to_maturity = int(T * 365 + 0.5)
         maturity = today + days_to_maturity
